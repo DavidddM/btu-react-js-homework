@@ -38,7 +38,7 @@ function App() {
     };
 
     useEffect(() => {
-        setItems([...itemList]);
+        setItems([...itemList.sort((a, b) => (a.categoryId > b.categoryId ? 1 : -1))]);
     }, []);
 
     return (

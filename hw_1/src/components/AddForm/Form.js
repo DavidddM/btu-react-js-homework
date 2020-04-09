@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function Form({ catList, handleOnSubmit }) {
@@ -83,5 +84,10 @@ function Form({ catList, handleOnSubmit }) {
         </form>
     );
 }
+
+Form.propTypes = {
+    catList: PropTypes.array.isRequired,
+    handleOnSubmit: PropTypes.func,
+};
 
 export default Form;

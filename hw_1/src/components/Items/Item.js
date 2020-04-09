@@ -24,7 +24,7 @@ function Item({ item, handleRemoval }) {
 }
 
 Item.propTypes = {
-    item: PropTypes.object.isRequired,
+    items: PropTypes.object.isRequired,
     handleRemoval: PropTypes.func,
 };
 
