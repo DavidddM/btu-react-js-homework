@@ -14,7 +14,7 @@ function CSSEContainer() {
         (async () => {
             try {
                 const response = await axios.get(
-                    "https://corona.lmao.ninja/v2/jhucsse"
+                    "https://disease.sh/v2/jhucsse"
                 );
                 setData(response.data);
                 setFullData(response.data);

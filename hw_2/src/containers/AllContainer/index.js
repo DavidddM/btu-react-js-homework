@@ -8,7 +8,7 @@ function AllContainer() {
         (async () => {
             try {
                 const response = await axios.get(
-                    "https://corona.lmao.ninja/v2/all"
+                    "https://disease.sh/v2/all"
                 );
                 setData(Array(response.data));
             } catch (err) {

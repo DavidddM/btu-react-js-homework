@@ -14,7 +14,7 @@ function StatesContainer() {
         (async () => {
             try {
                 const response = await axios.get(
-                    "https://corona.lmao.ninja/v2/states"
+                    "https://disease.sh/v2/states"
                 );
                 setData(response.data);
                 setFullData(response.data);
