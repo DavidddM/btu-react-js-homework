@@ -8,7 +8,7 @@ function CategoriesCont({ onClickHandler }) {
   const { asyncExecution, data } = useAsyncGet();
 
   useEffect(() => {
-    asyncExecution("https://api.chucknorris.io/jokes/categories");
+    asyncExecution("categories");
   }, [asyncExecution]);
 
   return data && <CategoriesComp data={data} onClickHandler={onClickHandler} />;

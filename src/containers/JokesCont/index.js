@@ -9,11 +9,11 @@ function JokesCont({ cat, onOtherCatHandler }) {
   const { asyncExecution, data } = useAsyncGet();
 
   useEffect(() => {
-    asyncExecution("https://api.chucknorris.io/jokes/random?category="+cat);
+    asyncExecution("random?category="+cat);
   }, [asyncExecution, cat]);
 
   const onAnotherJokeHnadler = () => {
-    asyncExecution("https://api.chucknorris.io/jokes/random?category="+cat);
+    asyncExecution("random?category="+cat);
   }
 
   return data && <JokesComp joke={data.value} cat={cat} onAnotherJokeHnadler={onAnotherJokeHnadler} onOtherCatHandler={onOtherCatHandler} />;
