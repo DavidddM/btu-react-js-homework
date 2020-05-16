@@ -1,24 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useContext, useState } from "react";
+import "./App.css";
+import CategoriesCont from "./containers/CategoriesCont";
+import LoginForm from "./components/LoginForm";
+import JokesCont from "./containers/JokesCont";
+import { AuthContext } from "./context/authContext";
 
 function App() {
+  const { isAuthenticated } = useContext(AuthContext);
+  const [showComp, setShowComp] = useState("cats");
+  const [cat, setCat] = useState("cats");
+
+  const onClickHandler = ({ target }) => {
+    if (isAuthenticated) {
+      setCat(target.id);
+      setShowComp("joke");
+    } else {
+      alert("ჩაკ ნორისზე ხუმრობის სანახავად (მიუხედავად იმისა, რომ ეს ხუმრობები 2010 წლის შემდეგ არარელევანტურია), გთხოვთ გაიროთ ავტორიზაცია!");
+    }
+  };
+
+  const onOtherCatHandler = () => {
+    setShowComp("cats")
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {!isAuthenticated && <LoginForm />}
+      {showComp.toString() === "cats" && (
+        <CategoriesCont onClickHandler={onClickHandler} />
+      )}
+      {isAuthenticated && showComp.toString() === "joke" && (
+        <JokesCont cat={cat} onOtherCatHandler={onOtherCatHandler}/>
+      )}
     </div>
   );
 }
