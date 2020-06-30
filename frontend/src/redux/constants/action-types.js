@@ -3,6 +3,7 @@ export const DECREASE_RATING = "DECREASE_RATING";
 export const SET_VALUE = "SET_VALUE";
 export const SET_RATING_RIGHT = "SET_RATING_RIGHT";
 export const SET_IS_AUTH = "SET_IS_AUTH";
+export const SET_UID = "SET_UID";
 export const SET_LOGIN_ERROR = "SET_LOGIN_ERROR";
 export const ADD_RATED_ID = "ADD_RATED_ID";
 export const START_FETCHING_IDS = "START_FETCHING_IDS";

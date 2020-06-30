@@ -4,6 +4,7 @@ import {
     SET_VALUE,
     SET_RATING_RIGHT,
     SET_IS_AUTH,
+    SET_UID,
     SET_LOGIN_ERROR,
     ADD_RATED_ID,
     START_FETCHING_IDS,
@@ -14,6 +15,7 @@ import {
 const initalState = {
     rating: 0,
     ratingRight: true,
+    uid: false,
     isAuth: false,
     loginError: false,
     ratedIds: [],
@@ -22,8 +24,6 @@ const initalState = {
 };
 
 function rootReducer(state = initalState, action) {
-    console.log(action);
-    console.log(state.ratedIds);
     switch (action.type) {
         default:
             return state;
@@ -52,6 +52,11 @@ function rootReducer(state = initalState, action) {
             return {
                 ...state,
                 isAuth: action.payload.isAuth,
+            };
+        case SET_UID:
+            return {
+                ...state,
+                uid: action.payload.uid,
             };
         case SET_LOGIN_ERROR:
             return {

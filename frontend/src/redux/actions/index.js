@@ -4,6 +4,7 @@ import {
     SET_VALUE,
     SET_RATING_RIGHT,
     SET_IS_AUTH,
+    SET_UID,
     SET_LOGIN_ERROR,
     ADD_RATED_ID,
     START_FETCHING_IDS,
@@ -39,6 +40,13 @@ export function setRatingRight(payload) {
 export function setIsAuth(payload) {
     return {
         type: SET_IS_AUTH,
+        payload: payload,
+    };
+}
+
+export function setUid(payload) {
+    return {
+        type: SET_UID,
         payload: payload,
     };
 }

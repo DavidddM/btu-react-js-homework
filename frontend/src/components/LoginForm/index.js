@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 import { connect } from "react-redux";
-import { setIsAuth, setLoginError } from "../../redux/actions";
+import { setIsAuth, setLoginError, setUid } from "../../redux/actions";
 import fetchIds from "../../redux/actions/fetchIds";
 import axios from "axios";
 
@@ -26,10 +26,10 @@ function LoginForm(props) {
             })
             .then((resp) => {
                 localStorage.setItem("userName", resp.data.user.username);
-                localStorage.setItem("uid", resp.data.user.id);
                 localStorage.setItem("token", resp.data.jwt);
                 props.setIsAuth({ isAuth: true });
-                props.fetchIds();
+                props.setUid({ uid: resp.data.user.id });
+                props.fetchIds(props.uid);
                 history.push("/");
             })
             .catch((err) => {
@@ -95,6 +95,7 @@ function LoginForm(props) {
 const mapStateToProps = (state) => ({
     isAuth: state.isAuth,
     loginError: state.loginError,
+    uid: state.uid,
 });
 
 const mapDispatchToProps = (dispatch) => {
@@ -105,8 +106,11 @@ const mapDispatchToProps = (dispatch) => {
         setLoginError(payload) {
             dispatch(setLoginError(payload));
         },
-        fetchIds() {
-            dispatch(fetchIds());
+        fetchIds(uid) {
+            dispatch(fetchIds(uid));
+        },
+        setUid(payload) {
+            dispatch(setUid(payload));
         },
     };
 };

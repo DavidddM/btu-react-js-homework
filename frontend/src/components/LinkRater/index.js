@@ -7,7 +7,7 @@ import {
     setRatingRight,
     addRatedId,
 } from "../../redux/actions";
-import { Mutation, useMutation } from "react-apollo";
+import { useMutation } from "react-apollo";
 
 import UPDATE_LINK_RATING_BY_ID_MUTATION from "../../mutations/updateLinkRatingByID";
 import UPDATE_USER_LINKS_REL_MUTATION from "../../mutations/updateUserLinksrel";
@@ -79,7 +79,7 @@ function LinkRater(props) {
                             });
                             updateLinkrel({
                                 variables: {
-                                    id: localStorage.getItem("uid"),
+                                    id: props.uid,
                                     links: [...props.ratedIds, props.data.id],
                                 },
                                 context: {
@@ -123,7 +123,7 @@ function LinkRater(props) {
                             });
                             updateLinkrel({
                                 variables: {
-                                    id: localStorage.getItem("uid"),
+                                    id: props.uid,
                                     links: [...props.ratedIds, props.data.id],
                                 },
                                 context: {
@@ -170,6 +170,7 @@ function LinkRater(props) {
 }
 
 const mapStateToProps = (state) => ({
+    uid: state.uid,
     rating: state.rating,
     ratingRight: state.ratingRight,
     ratedIds: state.ratedIds,

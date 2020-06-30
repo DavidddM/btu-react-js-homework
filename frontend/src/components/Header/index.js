@@ -7,7 +7,7 @@ import CATEGORIES_QUERY from "../../queries/category/categories";
 
 import { useHistory } from "react-router-dom";
 
-import { setIsAuth } from "../../redux/actions";
+import { setIsAuth, setUid } from "../../redux/actions";
 
 const HeaderNav = styled.nav`
     border-radius: 25px;
@@ -100,7 +100,7 @@ function Header(props) {
                             onClick={() => {
                                 localStorage.setItem("userName", false);
                                 localStorage.setItem("token", false);
-                                localStorage.setItem("uid", false);
+                                props.setUid({ uid: false });
                                 props.setIsAuth({ isAuth: false });
                                 history.push("/");
                             }}
@@ -118,6 +118,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         setIsAuth(payload) {
             dispatch(setIsAuth(payload));
+        },
+        setUid(payload) {
+            dispatch(setUid(payload));
         },
     };
 };
