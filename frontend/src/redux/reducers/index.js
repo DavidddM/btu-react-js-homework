@@ -5,6 +5,10 @@ import {
     SET_RATING_RIGHT,
     SET_IS_AUTH,
     SET_LOGIN_ERROR,
+    ADD_RATED_ID,
+    START_FETCHING_IDS,
+    FETCHING_IDS_ERR,
+    FETCHING_IDS_SUCCESS,
 } from "../constants/action-types";
 
 const initalState = {
@@ -12,10 +16,14 @@ const initalState = {
     ratingRight: true,
     isAuth: false,
     loginError: false,
+    ratedIds: [],
+    fetchPending: false,
+    error: false,
 };
 
 function rootReducer(state = initalState, action) {
     console.log(action);
+    console.log(state.ratedIds);
     switch (action.type) {
         default:
             return state;
@@ -50,6 +58,31 @@ function rootReducer(state = initalState, action) {
                 ...state,
                 loginError: action.payload.loginError,
             };
+        case ADD_RATED_ID:
+            return {
+                ...state,
+                ratedIds: [...state.ratedIds, action.payload.ratedId],
+            };
+        case START_FETCHING_IDS: {
+            return {
+                ...state,
+                fetchPending: true,
+            };
+        }
+        case FETCHING_IDS_ERR: {
+            return {
+                ...state,
+                fetchPending: false,
+                error: action.payload.fetchingErr,
+            };
+        }
+        case FETCHING_IDS_SUCCESS: {
+            return {
+                ...state,
+                fetchPending: false,
+                ratedIds: action.payload.ratedIds,
+            };
+        }
     }
 }
 

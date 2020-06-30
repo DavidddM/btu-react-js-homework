@@ -100,6 +100,7 @@ function Header(props) {
                             onClick={() => {
                                 localStorage.setItem("userName", false);
                                 localStorage.setItem("token", false);
+                                localStorage.setItem("uid", false);
                                 props.setIsAuth({ isAuth: false });
                                 history.push("/");
                             }}

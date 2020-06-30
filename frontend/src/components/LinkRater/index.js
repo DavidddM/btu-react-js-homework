@@ -5,10 +5,12 @@ import {
     decreaseRating,
     setValue,
     setRatingRight,
+    addRatedId,
 } from "../../redux/actions";
-import { Mutation } from "react-apollo";
+import { Mutation, useMutation } from "react-apollo";
 
 import UPDATE_LINK_RATING_BY_ID_MUTATION from "../../mutations/updateLinkRatingByID";
+import UPDATE_USER_LINKS_REL_MUTATION from "../../mutations/updateUserLinksrel";
 import styled from "styled-components";
 
 import Countdown from "react-countdown";
@@ -33,80 +35,121 @@ const MsgDiv = styled.div`
 
 function LinkRater(props) {
     const history = useHistory();
+    const [updateLinkrel] = useMutation(UPDATE_USER_LINKS_REL_MUTATION);
+    const [updateLinkRating] = useMutation(UPDATE_LINK_RATING_BY_ID_MUTATION);
     useEffect(() => {
         props.setValue({ rating: props.data.rating });
         props.setRatingRight({ ratingRight: true });
+        if (props.ratedIds.includes(props.data.id)) {
+            props.setRatingRight({ ratingRight: false });
+        }
     }, []);
     return (
         <BalancedDiv>
-            <Countdown
-                date={Date.now() + props.data.aliveMs}
-                onComplete={() => props.setRatingRight({ ratingRight: false })}
-            />
+            {props.ratingRight && (
+                <Countdown
+                    date={Date.now() + props.data.aliveMs}
+                    onComplete={() => {
+                        props.setRatingRight({ ratingRight: false });
+                        props.addRatedId({ ratedId: props.data.id });
+                    }}
+                />
+            )}
             <h1>
                 <a href={props.data.url}>{props.data.url}</a>
             </h1>
             <h2>Rating: {props.rating}</h2>
             {props.ratingRight && (
-                <Mutation mutation={UPDATE_LINK_RATING_BY_ID_MUTATION}>
-                    {(exec) => (
-                        <div>
-                            <button
-                                className="btn btn-success"
-                                onClick={() => {
-                                    exec({
-                                        variables: {
-                                            id: props.data.id,
-                                            rating: props.rating + 1,
-                                        },
-                                        context: {
-                                            headers: {
-                                                authorization: `Bearer ${localStorage.getItem(
-                                                    "token"
-                                                )}`,
-                                            },
-                                        },
-                                    });
-                                    props.increaseRating();
-                                    props.setRatingRight({
-                                        ratingRight: false,
-                                    });
-                                }}
-                                style={{
-                                    marginRight: "50px",
-                                    fontSize: "30px",
-                                }}
-                            >
-                                Yay!
-                            </button>
-                            <button
-                                className="btn btn-danger"
-                                onClick={() => {
-                                    exec({
-                                        variables: {
-                                            id: props.data.id,
-                                            rating: props.rating - 1,
-                                        },
-                                        context: {
-                                            headers: {
-                                                authorization: `Bearer ${localStorage.getItem(
-                                                    "token"
-                                                )}`,
-                                            },
-                                        },
-                                    });
-                                    props.decreaseRating();
-                                    props.setRatingRight({
-                                        ratingRight: false,
-                                    });
-                                }}
-                                style={{ fontSize: "30px" }}
-                            >
-                                Nay!
-                            </button>
-                        </div>
-                    )}
-                </Mutation>
+                <div>
+                    <button
+                        className="btn btn-success"
+                        onClick={() => {
+                            updateLinkRating({
+                                variables: {
+                                    id: props.data.id,
+                                    rating: props.rating + 1,
+                                },
+                                context: {
+                                    headers: {
+                                        authorization: `Bearer ${localStorage.getItem(
+                                            "token"
+                                        )}`,
+                                    },
+                                },
+                            });
+                            updateLinkrel({
+                                variables: {
+                                    id: localStorage.getItem("uid"),
+                                    links: [...props.ratedIds, props.data.id],
+                                },
+                                context: {
+                                    headers: {
+                                        authorization: `Bearer ${localStorage.getItem(
+                                            "token"
+                                        )}`,
+                                    },
+                                },
+                            });
+                            props.increaseRating();
+                            props.setRatingRight({
+                                ratingRight: false,
+                            });
+                            props.addRatedId({
+                                ratedId: props.data.id,
+                            });
+                        }}
+                        style={{
+                            marginRight: "50px",
+                            fontSize: "30px",
+                        }}
+                    >
+                        Yay!
+                    </button>
+                    <button
+                        className="btn btn-danger"
+                        onClick={() => {
+                            updateLinkRating({
+                                variables: {
+                                    id: props.data.id,
+                                    rating: props.rating - 1,
+                                },
+                                context: {
+                                    headers: {
+                                        authorization: `Bearer ${localStorage.getItem(
+                                            "token"
+                                        )}`,
+                                    },
+                                },
+                            });
+                            updateLinkrel({
+                                variables: {
+                                    id: localStorage.getItem("uid"),
+                                    links: [...props.ratedIds, props.data.id],
+                                },
+                                context: {
+                                    headers: {
+                                        authorization: `Bearer ${localStorage.getItem(
+                                            "token"
+                                        )}`,
+                                    },
+                                },
+                            });
+                            props.decreaseRating();
+                            props.setRatingRight({
+                                ratingRight: false,
+                            });
+                            props.addRatedId({
+                                ratedId: props.data.id,
+                            });
+                            console.log(
+                                props.ratedIds.map((rId) => parseInt(rId))
+                            );
+                        }}
+                        style={{ fontSize: "30px" }}
+                    >
+                        Nay!
+                    </button>
+                </div>
             )}
             {!props.ratingRight && (
                 <MsgDiv>
@@ -129,6 +172,7 @@ function LinkRater(props) {
 const mapStateToProps = (state) => ({
     rating: state.rating,
     ratingRight: state.ratingRight,
+    ratedIds: state.ratedIds,
 });
 
 const mapDispatchToProps = (dispatch) => {
@@ -144,6 +188,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         setRatingRight(payload) {
             dispatch(setRatingRight(payload));
+        },
+        addRatedId(payload) {
+            dispatch(addRatedId(payload));
         },
     };
 };

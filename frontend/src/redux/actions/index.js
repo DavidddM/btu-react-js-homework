@@ -5,6 +5,10 @@ import {
     SET_RATING_RIGHT,
     SET_IS_AUTH,
     SET_LOGIN_ERROR,
+    ADD_RATED_ID,
+    START_FETCHING_IDS,
+    FETCHING_IDS_ERR,
+    FETCHING_IDS_SUCCESS,
 } from "../constants/action-types";
 
 export function increaseRating() {
@@ -42,6 +46,33 @@ export function setIsAuth(payload) {
 export function setLoginError(payload) {
     return {
         type: SET_LOGIN_ERROR,
+        payload: payload,
+    };
+}
+
+export function addRatedId(payload) {
+    return {
+        type: ADD_RATED_ID,
+        payload: payload,
+    };
+}
+
+export function startFetching() {
+    return {
+        type: START_FETCHING_IDS,
+    };
+}
+
+export function fetchIdsError(payload) {
+    return {
+        type: FETCHING_IDS_ERR,
+        payload: payload,
+    };
+}
+
+export function fetchIdsSuccess(payload) {
+    return {
+        type: FETCHING_IDS_SUCCESS,
         payload: payload,
     };
 }

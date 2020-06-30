@@ -24,6 +24,12 @@
     "rating": {
       "type": "integer",
       "default": 0
+    },
+    "users": {
+      "plugin": "users-permissions",
+      "collection": "user",
+      "via": "links",
+      "dominant": true
     }
   }
 }

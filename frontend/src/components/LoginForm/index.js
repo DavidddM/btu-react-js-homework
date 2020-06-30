@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 
 import { connect } from "react-redux";
 import { setIsAuth, setLoginError } from "../../redux/actions";
+import fetchIds from "../../redux/actions/fetchIds";
 import axios from "axios";
 
 import settings from "../../settings";
@@ -25,8 +26,10 @@ function LoginForm(props) {
             })
             .then((resp) => {
                 localStorage.setItem("userName", resp.data.user.username);
+                localStorage.setItem("uid", resp.data.user.id);
                 localStorage.setItem("token", resp.data.jwt);
                 props.setIsAuth({ isAuth: true });
+                props.fetchIds();
                 history.push("/");
             })
             .catch((err) => {
@@ -92,7 +95,6 @@ function LoginForm(props) {
 const mapStateToProps = (state) => ({
     isAuth: state.isAuth,
     loginError: state.loginError,
-    jwt: state.jwt,
 });
 
 const mapDispatchToProps = (dispatch) => {
@@ -103,8 +105,8 @@ const mapDispatchToProps = (dispatch) => {
         setLoginError(payload) {
             dispatch(setLoginError(payload));
         },
-        setJwt(payload) {
-            dispatch(setJwt(payload));
+        fetchIds() {
+            dispatch(fetchIds());
         },
     };
 };
