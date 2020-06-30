@@ -9,8 +9,8 @@ import {
 } from "../../redux/actions";
 import { useMutation } from "react-apollo";
 
-import UPDATE_LINK_RATING_BY_ID_MUTATION from "../../mutations/updateLinkRatingByID";
-import UPDATE_USER_LINKS_REL_MUTATION from "../../mutations/updateUserLinksrel";
+import UPDATE_LINK_RATING_BY_ID_MUTATION from "../../mutations/link/updateLinkRatingByID";
+import UPDATE_USER_LINKS_REL_MUTATION from "../../mutations/user/updateUserLinksrel";
 import styled from "styled-components";
 
 import Countdown from "react-countdown";
