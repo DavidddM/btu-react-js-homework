@@ -29,7 +29,7 @@ function LoginForm(props) {
                 localStorage.setItem("token", resp.data.jwt);
                 props.setIsAuth({ isAuth: true });
                 props.setUid({ uid: resp.data.user.id });
-                props.fetchIds(props.uid);
+                props.fetchIds(resp.data.user.id);
                 history.push("/");
             })
             .catch((err) => {
@@ -93,9 +93,7 @@ function LoginForm(props) {
 }
 
 const mapStateToProps = (state) => ({
-    isAuth: state.isAuth,
     loginError: state.loginError,
-    uid: state.uid,
 });
 
 const mapDispatchToProps = (dispatch) => {
