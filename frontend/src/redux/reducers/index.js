@@ -5,6 +5,8 @@ import {
     SET_RATING_RIGHT,
     SET_IS_AUTH,
     SET_UID,
+    SET_USERNAME,
+    SET_JWT,
     SET_LOGIN_ERROR,
     ADD_RATED_ID,
     START_FETCHING_IDS,
@@ -15,12 +17,6 @@ import {
 const initalState = {
     rating: 0,
     ratingRight: true,
-    uid: false,
-    isAuth: false,
-    loginError: false,
-    ratedIds: [],
-    fetchPending: false,
-    error: false,
 };
 
 function rootReducer(state = initalState, action) {
@@ -48,6 +44,21 @@ function rootReducer(state = initalState, action) {
                 ...state,
                 ratingRight: action.payload.ratingRight,
             };
+    }
+}
+
+const loginState = {
+    uid: false,
+    isAuth: false,
+    loginError: false,
+    jwt: false,
+    userName: false,
+};
+
+export function loginReducer(state = loginState, action) {
+    switch (action.type) {
+        default:
+            return state;
         case SET_IS_AUTH:
             return {
                 ...state,
@@ -63,6 +74,26 @@ function rootReducer(state = initalState, action) {
                 ...state,
                 loginError: action.payload.loginError,
             };
+        case SET_JWT:
+            return {
+                ...state,
+                jwt: action.payload.jwt,
+            };
+        case SET_USERNAME: {
+            return {
+                ...state,
+                userName: action.payload.userName,
+            };
+        }
+    }
+}
+
+const dataState = { ratedIds: [], fetchPending: false, error: false };
+
+export function dataReducer(state = dataState, action) {
+    switch (action.type) {
+        default:
+            return state;
         case ADD_RATED_ID:
             return {
                 ...state,

@@ -71,9 +71,7 @@ function LinkRater(props) {
                                 },
                                 context: {
                                     headers: {
-                                        authorization: `Bearer ${localStorage.getItem(
-                                            "token"
-                                        )}`,
+                                        authorization: `Bearer ${props.jwt}`,
                                     },
                                 },
                             });
@@ -84,9 +82,7 @@ function LinkRater(props) {
                                 },
                                 context: {
                                     headers: {
-                                        authorization: `Bearer ${localStorage.getItem(
-                                            "token"
-                                        )}`,
+                                        authorization: `Bearer ${props.jwt}`,
                                     },
                                 },
                             });
@@ -115,9 +111,7 @@ function LinkRater(props) {
                                 },
                                 context: {
                                     headers: {
-                                        authorization: `Bearer ${localStorage.getItem(
-                                            "token"
-                                        )}`,
+                                        authorization: `Bearer ${props.jwt}`,
                                     },
                                 },
                             });
@@ -128,9 +122,7 @@ function LinkRater(props) {
                                 },
                                 context: {
                                     headers: {
-                                        authorization: `Bearer ${localStorage.getItem(
-                                            "token"
-                                        )}`,
+                                        authorization: `Bearer ${props.jwt}`,
                                     },
                                 },
                             });
@@ -170,10 +162,11 @@ function LinkRater(props) {
 }
 
 const mapStateToProps = (state) => ({
-    uid: state.uid,
-    rating: state.rating,
-    ratingRight: state.ratingRight,
-    ratedIds: state.ratedIds,
+    uid: state.loginInfo.uid,
+    jwt: state.loginInfo.jwt,
+    rating: state.app.rating,
+    ratingRight: state.app.ratingRight,
+    ratedIds: state.data.ratedIds,
 });
 
 const mapDispatchToProps = (dispatch) => {

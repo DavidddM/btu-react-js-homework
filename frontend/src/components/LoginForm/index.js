@@ -2,7 +2,13 @@ import React, { useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 import { connect } from "react-redux";
-import { setIsAuth, setLoginError, setUid } from "../../redux/actions";
+import {
+    setIsAuth,
+    setLoginError,
+    setUid,
+    setJwt,
+    setUsername,
+} from "../../redux/actions";
 import fetchIds from "../../redux/actions/fetchIds";
 import axios from "axios";
 
@@ -25,11 +31,11 @@ function LoginForm(props) {
                 password: data.password,
             })
             .then((resp) => {
-                localStorage.setItem("userName", resp.data.user.username);
-                localStorage.setItem("token", resp.data.jwt);
+                props.setUsername({ userName: resp.data.user.username });
+                props.setJwt({ jwt: resp.data.jwt });
                 props.setIsAuth({ isAuth: true });
                 props.setUid({ uid: resp.data.user.id });
-                props.fetchIds(resp.data.user.id);
+                props.fetchIds(resp.data.user.id, resp.data.jwt);
                 history.push("/");
             })
             .catch((err) => {
@@ -93,7 +99,7 @@ function LoginForm(props) {
 }
 
 const mapStateToProps = (state) => ({
-    loginError: state.loginError,
+    loginError: state.loginInfo.loginError,
 });
 
 const mapDispatchToProps = (dispatch) => {
@@ -104,11 +110,17 @@ const mapDispatchToProps = (dispatch) => {
         setLoginError(payload) {
             dispatch(setLoginError(payload));
         },
-        fetchIds(uid) {
-            dispatch(fetchIds(uid));
+        fetchIds(uid, jwt) {
+            dispatch(fetchIds(uid, jwt));
         },
         setUid(payload) {
             dispatch(setUid(payload));
+        },
+        setUsername(payload) {
+            dispatch(setUsername(payload));
+        },
+        setJwt(payload) {
+            dispatch(setJwt(payload));
         },
     };
 };

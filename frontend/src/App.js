@@ -36,7 +36,7 @@ function App(props) {
 }
 
 const mapStateToProps = (state) => ({
-    isAuth: state.isAuth,
+    isAuth: state.loginInfo.isAuth,
 });
 const ConnectedApp = connect(mapStateToProps)(App);
 

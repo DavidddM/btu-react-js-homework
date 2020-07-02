@@ -6,6 +6,8 @@ import {
     SET_IS_AUTH,
     SET_UID,
     SET_LOGIN_ERROR,
+    SET_USERNAME,
+    SET_JWT,
     ADD_RATED_ID,
     START_FETCHING_IDS,
     FETCHING_IDS_ERR,
@@ -47,6 +49,20 @@ export function setIsAuth(payload) {
 export function setUid(payload) {
     return {
         type: SET_UID,
+        payload: payload,
+    };
+}
+
+export function setUsername(payload) {
+    return {
+        type: SET_USERNAME,
+        payload: payload,
+    };
+}
+
+export function setJwt(payload) {
+    return {
+        type: SET_JWT,
         payload: payload,
     };
 }

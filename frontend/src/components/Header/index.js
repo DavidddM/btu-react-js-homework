@@ -7,7 +7,7 @@ import CATEGORIES_QUERY from "../../queries/category/categories";
 
 import { useHistory } from "react-router-dom";
 
-import { setIsAuth, setUid } from "../../redux/actions";
+import { setIsAuth, setUid, setUsername, setJwt } from "../../redux/actions";
 
 const HeaderNav = styled.nav`
     border-radius: 25px;
@@ -90,7 +90,7 @@ function Header(props) {
                 </ul>
                 <ul className="navbar-nav">
                     <span className="navbar-text">
-                        Hello, {localStorage.getItem("userName")}!
+                        Hello, {props.userName}!
                     </span>
                     <li className="nav-item">
                         <MenuItem
@@ -98,8 +98,8 @@ function Header(props) {
                             id="logout"
                             role="button"
                             onClick={() => {
-                                localStorage.setItem("userName", false);
-                                localStorage.setItem("token", false);
+                                props.setUsername(false);
+                                props.setJwt(false);
                                 props.setUid({ uid: false });
                                 props.setIsAuth({ isAuth: false });
                                 history.push("/");
@@ -114,6 +114,10 @@ function Header(props) {
     );
 }
 
+const mapStateToProps = (state) => ({
+    userName: state.loginInfo.userName,
+});
+
 const mapDispatchToProps = (dispatch) => {
     return {
         setIsAuth(payload) {
@@ -122,9 +126,15 @@ const mapDispatchToProps = (dispatch) => {
         setUid(payload) {
             dispatch(setUid(payload));
         },
+        setUsername(payload) {
+            dispatch(setUsername(payload));
+        },
+        setJwt(payload) {
+            dispatch(setJwt(payload));
+        },
     };
 };
 
-const ConnectedHeader = connect(null, mapDispatchToProps)(Header);
+const ConnectedHeader = connect(mapStateToProps, mapDispatchToProps)(Header);
 
 export default ConnectedHeader;

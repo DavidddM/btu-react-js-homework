@@ -1,12 +1,12 @@
 import { startFetching, fetchIdsError, fetchIdsSuccess } from "../actions";
 import settings from "../../settings";
 
-function fetchIds(uid) {
+function fetchIds(uid, jwt) {
     return (dispatch) => {
         dispatch(startFetching());
         fetch(`${settings.APP_BASE_URL}/users/${uid}`, {
             headers: {
-                authorization: `Bearer ${localStorage.getItem("token")}`,
+                authorization: `Bearer ${jwt}`,
             },
         })
             .then((res) => res.json())
