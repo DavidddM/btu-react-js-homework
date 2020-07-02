@@ -115,16 +115,15 @@ describe("login actions", () => {
         };
         expect(actions.setJwt(payload)).toEqual(expectedAction);
     });
-    it("set random generated jwt", () => {
-        const jwt = Math.floor(Math.random() * 1000000000000);
+    it("set random username", () => {
         const payload = {
-            jwt: jwt,
+            userName: "david",
         };
         const expectedAction = {
-            type: types.SET_JWT,
+            type: types.SET_USERNAME,
             payload,
         };
-        expect(actions.setJwt(payload)).toEqual(expectedAction);
+        expect(actions.setUsername(payload)).toEqual(expectedAction);
     });
 });
 
