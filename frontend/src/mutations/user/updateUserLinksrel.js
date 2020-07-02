@@ -5,7 +5,6 @@ const UPDATE_USER_LINKS_REL_MUTATION = gql`
         updateUser(input: { where: { id: $id }, data: { links: $links } }) {
             user {
                 id
-                username
             }
         }
     }
