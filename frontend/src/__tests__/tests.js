@@ -8,6 +8,9 @@ import Adapter from "enzyme-adapter-react-16";
 import LoginForm from "../components/LoginForm";
 import configureStore from "redux-mock-store";
 import { Provider } from "react-redux";
+import Query from "../components/Query";
+import CATEGORIES_QUERY from "../queries/category/categories";
+import { MockedProvider } from "@apollo/react-testing";
 
 // მთლად ყველაფერს არ გავტესტავ, დიდ დროს წაიღებს და literally copy-paste იქნება
 
@@ -130,7 +133,7 @@ describe("login actions", () => {
 const mockStore = configureStore([]);
 configure({ adapter: new Adapter() });
 
-describe("Login component", () => {
+describe("Test components", () => {
     let store;
 
     beforeEach(() => {
@@ -152,11 +155,38 @@ describe("Login component", () => {
         });
     });
 
-    it("render LoginForm", () => {
+    it("test LoginForm", () => {
         const component = mount(
             <Provider store={store}>
                 <LoginForm />
             </Provider>
+        );
+
+        expect(component).toMatchSnapshot();
+    });
+    const mocks = [
+        {
+            request: {
+                query: CATEGORIES_QUERY,
+            },
+            result: {
+                data: [
+                    {
+                        id: 1,
+                        categoryName: "კატეგორია 1",
+                        created_at: "2020-06-28T19:50:27.753Z",
+                        updated_at: "2020-06-28T19:50:27.753Z",
+                        links: [],
+                    },
+                ],
+            },
+        },
+    ];
+    it("test Query", () => {
+        const component = mount(
+            <MockedProvider mocks={mocks} addTypename={false}>
+                <Query query={CATEGORIES_QUERY} />
+            </MockedProvider>
         );
 
         expect(component).toMatchSnapshot();
